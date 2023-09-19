@@ -4,15 +4,14 @@ import jogodetabuleiro.Tabuleiro;
 import xadrez.Cor;
 import xadrez.PecaXadrez;
 
-public class Torre extends PecaXadrez{
+public class Bispo extends PecaXadrez{
 
-	public Torre(Tabuleiro tabuleiro, Cor cor) {
-		super(tabuleiro, cor);	
+	public Bispo(Tabuleiro tabuleiro, Cor cor) {
+		super(tabuleiro, cor);
 	}
 	
 	@Override
 	public String toString() {
-		return "T";
+		return "B";
 	}
-	
 }
