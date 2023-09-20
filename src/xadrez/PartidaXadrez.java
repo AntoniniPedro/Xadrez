@@ -1,8 +1,6 @@
 package xadrez;
 
-import java.awt.Color;
-import java.util.Iterator;
-
+import jogodetabuleiro.Peca;
 import jogodetabuleiro.Posicao;
 import jogodetabuleiro.Tabuleiro;
 import xadrez.pecas.Bispo;
@@ -29,6 +27,27 @@ public class PartidaXadrez {
 			}
 		}
 		return mat;
+	}
+	
+	public PecaXadrez fazerMovimentoXadrez(PosicaoXadrez posicaoOrigem, PosicaoXadrez posicaoDestino ) {
+		Posicao origem = posicaoOrigem.paraPosicao();
+		Posicao destino = posicaoDestino.paraPosicao();
+		validarPosicaoOrigem(origem);
+		Peca pecaCapturada = mover(origem, destino);
+		return (PecaXadrez)pecaCapturada;
+	}
+	
+	private Peca mover(Posicao origem, Posicao destino) {
+		Peca p = tabuleiro.removerPeca(origem);
+		Peca pecaCapturada = tabuleiro.removerPeca(destino);
+		tabuleiro.colocarPeca(p, destino);
+		return pecaCapturada;
+	}
+	
+	private void validarPosicaoOrigem(Posicao posicao) {
+		if (!tabuleiro.temUmaPeca(posicao)) {
+			throw new ExcecaoXadrez("Não existe peça na posição origem");
+		}
 	}
 	
 	private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca) {
@@ -60,4 +79,4 @@ public class PartidaXadrez {
 			colocarNovaPeca(i, 7, new Peao(tabuleiro, Cor.BLACK));	
 		}
 	}
-}
+} 
