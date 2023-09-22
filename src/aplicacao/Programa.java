@@ -25,7 +25,7 @@ public class Programa {
 				PosicaoXadrez origem = UI.lerPosicaoXadrez(leitor);
 				
 				System.out.println();
-				System.out.println("Destino: ");
+				System.out.print("Destino: ");
 				PosicaoXadrez destino = UI.lerPosicaoXadrez(leitor);
 				
 				PecaXadrez pecaCapturada = partidaXadrez.fazerMovimentoXadrez(origem, destino);

@@ -14,4 +14,10 @@ public class Rainha extends PecaXadrez{
 	public String toString() {
 		return "A";
 	}
+	
+	@Override
+	public boolean[][] movimentosPossiveis() {
+		boolean[][] mat = new boolean[getTabuleiro().getLinhas()][getTabuleiro().getLinhas()];
+		return null;
+	}
 }
