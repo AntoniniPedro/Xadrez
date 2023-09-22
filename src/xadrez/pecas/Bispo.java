@@ -1,5 +1,6 @@
 package xadrez.pecas;
 
+import jogodetabuleiro.Posicao;
 import jogodetabuleiro.Tabuleiro;
 import xadrez.Cor;
 import xadrez.PecaXadrez;
@@ -18,6 +19,49 @@ public class Bispo extends PecaXadrez{
 	@Override
 	public boolean[][] movimentosPossiveis() {
 		boolean[][] mat = new boolean[getTabuleiro().getLinhas()][getTabuleiro().getLinhas()];
-		return null;
+		Posicao p = new Posicao(0, 0);
+		
+		// diagonal direita-acima
+		p.setValores(posicao.getLinha() - 1, posicao.getColuna() + 1);
+		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+			p.setValores(p.getLinha() - 1, p.getColuna() + 1);
+		}
+		if(getTabuleiro().existePosicao(p) && existePecaOponente(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+		}
+		
+		// diagonal esquerda-acima
+		p.setValores(posicao.getLinha() - 1, posicao.getColuna() - 1);
+		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+			p.setValores(p.getLinha() - 1, p.getColuna() - 1);
+		}
+		if(getTabuleiro().existePosicao(p) && existePecaOponente(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+		}
+		
+		// diagonal esquerda-abaixo
+		p.setValores(posicao.getLinha() + 1, posicao.getColuna() - 1);
+		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+			p.setValores(p.getLinha() + 1, p.getColuna() - 1);
+		}
+		if(getTabuleiro().existePosicao(p) && existePecaOponente(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+		}
+		
+		// diagonal direita-abaixo
+		p.setValores(posicao.getLinha() + 1, posicao.getColuna() + 1);
+		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+			p.setValores(p.getLinha() + 1, p.getColuna() + 1);
+		}
+		if(getTabuleiro().existePosicao(p) && existePecaOponente(p)) {
+			mat[p.getLinha()][p.getColuna()] = true;
+		}
+		
+		
+		return mat;
 	}
 }

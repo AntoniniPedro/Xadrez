@@ -1,7 +1,5 @@
 package jogodetabuleiro;
 
-import java.util.Iterator;
-
 public abstract class Peca {
 	
 	protected Posicao posicao;
