@@ -21,7 +21,7 @@ public class Bispo extends PecaXadrez{
 		boolean[][] mat = new boolean[getTabuleiro().getLinhas()][getTabuleiro().getLinhas()];
 		Posicao p = new Posicao(0, 0);
 		
-		// diagonal direita-acima
+		// NE
 		p.setValores(posicao.getLinha() - 1, posicao.getColuna() + 1);
 		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
 			mat[p.getLinha()][p.getColuna()] = true;
@@ -31,7 +31,7 @@ public class Bispo extends PecaXadrez{
 			mat[p.getLinha()][p.getColuna()] = true;
 		}
 		
-		// diagonal esquerda-acima
+		// NO
 		p.setValores(posicao.getLinha() - 1, posicao.getColuna() - 1);
 		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
 			mat[p.getLinha()][p.getColuna()] = true;
@@ -41,7 +41,7 @@ public class Bispo extends PecaXadrez{
 			mat[p.getLinha()][p.getColuna()] = true;
 		}
 		
-		// diagonal esquerda-abaixo
+		// SO
 		p.setValores(posicao.getLinha() + 1, posicao.getColuna() - 1);
 		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
 			mat[p.getLinha()][p.getColuna()] = true;
@@ -51,7 +51,7 @@ public class Bispo extends PecaXadrez{
 			mat[p.getLinha()][p.getColuna()] = true;
 		}
 		
-		// diagonal direita-abaixo
+		// SE
 		p.setValores(posicao.getLinha() + 1, posicao.getColuna() + 1);
 		while (getTabuleiro().existePosicao(p) && !getTabuleiro().temUmaPeca(p)) {
 			mat[p.getLinha()][p.getColuna()] = true;

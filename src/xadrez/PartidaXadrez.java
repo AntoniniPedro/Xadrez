@@ -91,8 +91,8 @@ public class PartidaXadrez {
 		colocarNovaPeca('f', 8, new Bispo(tabuleiro, Cor.BLACK));
 		colocarNovaPeca('g', 8, new Cavalo(tabuleiro, Cor.BLACK));
 		colocarNovaPeca('b', 8, new Cavalo(tabuleiro, Cor.BLACK));
-		for (char i='a'; i <'i'; i++) {
-			colocarNovaPeca(i, 7, new Peao(tabuleiro, Cor.BLACK));	
-		}
+		//for (char i='a'; i <'i'; i++) {
+		//	colocarNovaPeca(i, 7, new Peao(tabuleiro, Cor.BLACK));	
+		//}
 	}
 } 
