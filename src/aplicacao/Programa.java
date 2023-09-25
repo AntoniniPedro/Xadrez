@@ -3,8 +3,6 @@ package aplicacao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import jogodetabuleiro.Posicao;
-import jogodetabuleiro.Tabuleiro;
 import xadrez.ExcecaoXadrez;
 import xadrez.PartidaXadrez;
 import xadrez.PecaXadrez;
@@ -19,7 +17,7 @@ public class Programa {
 		while (true) {
 			try {			
 				UI.limparTela();
-				UI.imprimirTabuleiro(partidaXadrez.getPecas());
+				UI.imprimirPartida(partidaXadrez);
 				System.out.println();
 				System.out.print("Origem: ");
 				PosicaoXadrez origem = UI.lerPosicaoXadrez(leitor);
