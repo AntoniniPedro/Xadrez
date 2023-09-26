@@ -51,14 +51,17 @@ public class UI {
 			throw new InputMismatchException("Erro ao ler posição do Xadrez. Formatos validos são de a1 até h8.");
 		}
 	}
-	
+
 	public static void imprimirPartida(PartidaXadrez partidaXadrez, List<PecaXadrez> capturado) {
 		imprimirTabuleiro(partidaXadrez.getPecas());
 		System.out.println();
-		System.out.println("Turno: " + partidaXadrez.getTurno());
-		System.out.println("Vez do jogador: "+ partidaXadrez.getJogadorAtual());
-		System.out.println();
 		imprimirPecasCapturadas(capturado);
+		System.out.println();
+		System.out.println("Turno: " + partidaXadrez.getTurno());
+		System.out.println("Vez do jogador: " + partidaXadrez.getJogadorAtual());
+		if (partidaXadrez.getCheque()) {
+			System.out.println("CHEQUE!");
+		}
 	}
 
 	public static void imprimirTabuleiro(PecaXadrez[][] pecas) {
@@ -71,7 +74,7 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	
+
 	public static void imprimirTabuleiro(PecaXadrez[][] pecas, boolean[][] movimentosPossiveis) {
 		for (int i = 0; i < pecas.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -83,9 +86,8 @@ public class UI {
 		System.out.println("  a b c d e f g h");
 	}
 
-
 	private static void imprimirPeca(PecaXadrez peca, boolean background) {
-		if(background) {
+		if (background) {
 			System.out.print(ANSI_BLUE_BACKGROUND);
 		}
 		if (peca == null) {
@@ -99,7 +101,7 @@ public class UI {
 		}
 		System.out.print(" ");
 	}
-	
+
 	private static void imprimirPecasCapturadas(List<PecaXadrez> capturado) {
 		List<PecaXadrez> branco = capturado.stream().filter(x -> x.getCor() == Cor.BRANCO).collect(Collectors.toList());
 		List<PecaXadrez> preto = capturado.stream().filter(x -> x.getCor() == Cor.PRETO).collect(Collectors.toList());

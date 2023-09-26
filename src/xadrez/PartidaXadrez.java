@@ -1,7 +1,9 @@
 package xadrez;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jogodetabuleiro.Peca;
 import jogodetabuleiro.Posicao;
@@ -18,7 +20,8 @@ public class PartidaXadrez {
 	private Tabuleiro tabuleiro;
 	private int turno;
 	private Cor jogadorAtual;
-	
+	private boolean cheque;
+
 	private List<Peca> pecasNoTabuleiro = new ArrayList<>();
 	private List<Peca> pecasCapturadas = new ArrayList<>();
 
@@ -35,6 +38,10 @@ public class PartidaXadrez {
 
 	public Cor getJogadorAtual() {
 		return jogadorAtual;
+	}
+	
+	public boolean getCheque() {
+		return cheque;
 	}
 
 	public PecaXadrez[][] getPecas() {
@@ -59,6 +66,14 @@ public class PartidaXadrez {
 		validarPosicaoOrigem(origem);
 		validarPosicaoDestino(origem, destino);
 		Peca pecaCapturada = mover(origem, destino);
+		
+		if(testeCheque(jogadorAtual)) {
+			desmover(origem, destino, pecaCapturada);
+			throw new ExcecaoXadrez("Você não pode se colocar em Xeque");
+		}
+		
+		cheque = (testeCheque(oponente(jogadorAtual))) ? true : false;
+		
 		proximoTurno();
 		return (PecaXadrez) pecaCapturada;
 	}
@@ -67,18 +82,30 @@ public class PartidaXadrez {
 		Peca p = tabuleiro.removerPeca(origem);
 		Peca pecaCapturada = tabuleiro.removerPeca(destino);
 		tabuleiro.colocarPeca(p, destino);
-		if(pecaCapturada != null) {
+		if (pecaCapturada != null) {
 			pecasNoTabuleiro.remove(pecaCapturada);
 			pecasCapturadas.add(pecaCapturada);
 		}
+
 		return pecaCapturada;
+	}
+
+	private void desmover(Posicao origem, Posicao destino, Peca pecaCapturada) {
+		Peca p = tabuleiro.removerPeca(destino);
+		tabuleiro.colocarPeca(p, origem);
+
+		if (pecaCapturada != null) {
+			tabuleiro.colocarPeca(pecaCapturada, destino);
+			pecasCapturadas.remove(pecaCapturada);
+			pecasNoTabuleiro.add(pecaCapturada);
+		}
 	}
 
 	private void validarPosicaoOrigem(Posicao posicao) {
 		if (!tabuleiro.temUmaPeca(posicao)) {
 			throw new ExcecaoXadrez("Não existe peça na posição origem");
 		}
-		if (jogadorAtual != ((PecaXadrez)tabuleiro.peca(posicao)).getCor()) {
+		if (jogadorAtual != ((PecaXadrez) tabuleiro.peca(posicao)).getCor()) {
 			throw new ExcecaoXadrez("A peça escolhida não é sua");
 		}
 		if (!tabuleiro.peca(posicao).existeMovimentoPossivel()) {
@@ -91,11 +118,39 @@ public class PartidaXadrez {
 			throw new ExcecaoXadrez("A peça escolhida não pode se mover para o destino");
 		}
 	}
-	
+
 	private void proximoTurno() {
 		turno++;
 		jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
 	}
+
+	private Cor oponente(Cor cor) {
+		return (cor == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
+	}
+
+	private PecaXadrez rei(Cor cor) {
+		List<Peca> lista = pecasNoTabuleiro.stream().filter(x -> ((PecaXadrez)x).getCor() == cor).collect(Collectors.toList());
+		for(Peca p : lista) {
+			if(p instanceof Rei) {
+				return (PecaXadrez)p;
+			}
+		}
+		throw new IllegalStateException("Não existe rei "+ cor +" no tabuleiro.");
+	}
+	
+	private boolean testeCheque(Cor cor) {
+		Posicao posicaoRei = rei(cor).getPosicaoXadrez().paraPosicao();
+		List<Peca> pecasOponente = pecasNoTabuleiro.stream().filter(x -> ((PecaXadrez)x).getCor() == oponente(cor)).collect(Collectors.toList());
+		for (Peca p: pecasOponente){
+			boolean[][] mat = p.movimentosPossiveis();
+			if(mat[posicaoRei.getLinha()][posicaoRei.getColuna()]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 
 	private void colocarNovaPeca(char coluna, int linha, PecaXadrez peca) {
 		tabuleiro.colocarPeca(peca, new PosicaoXadrez(coluna, linha).paraPosicao());
@@ -111,9 +166,9 @@ public class PartidaXadrez {
 		colocarNovaPeca('f', 1, new Bispo(tabuleiro, Cor.BRANCO));
 		colocarNovaPeca('g', 1, new Cavalo(tabuleiro, Cor.BRANCO));
 		colocarNovaPeca('b', 1, new Cavalo(tabuleiro, Cor.BRANCO));
-		//for (char i = 'a'; i < 'i'; i++) {
-			//colocarNovaPeca(i, 2, new Peao(tabuleiro, Cor.BRANCO));
-		//}
+		// for (char i = 'a'; i < 'i'; i++) {
+		// colocarNovaPeca(i, 2, new Peao(tabuleiro, Cor.BRANCO));
+		// }
 
 		colocarNovaPeca('d', 8, new Rainha(tabuleiro, Cor.PRETO));
 		colocarNovaPeca('e', 8, new Rei(tabuleiro, Cor.PRETO));
