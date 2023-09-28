@@ -40,7 +40,11 @@ public class Programa {
 				
 				if (partidaXadrez.getPromovido() != null) {
 					System.out.println("Escolha uma peça para o peão ser promovido (B/C/T/A): ");
-					String tipo = leitor.nextLine();
+					String tipo = leitor.nextLine().toUpperCase();
+					while (!tipo.equals("B") && !tipo.equals("C") && !tipo.equals("T") && !tipo.equals("A")) {
+						System.out.println("Valor inválido! Escolha uma peça para o peão ser promovido (B/C/T/A): ");
+						tipo = leitor.nextLine().toUpperCase();
+					}
 					partidaXadrez.trocarPecaPromovida(tipo);
 				}
 				

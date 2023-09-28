@@ -122,7 +122,7 @@ public class PartidaXadrez {
 			throw new IllegalStateException("Não há peça para ser promovida");
 		}
 		if (!tipo.equals("B") && !tipo.equals("C") && !tipo.equals("T") && !tipo.equals("A")) {
-			throw new IllegalStateException("Tipo de peca inválido para promoção");
+			return promovido;
 		}
 
 		Posicao pos = promovido.getPosicaoXadrez().paraPosicao();
